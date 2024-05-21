@@ -13,19 +13,20 @@ class CreateUsersTable extends Migration
      */
     public function up()
     {
+        // mail=60->255,created_at=default(())を追加・nullableを削除
         Schema::create('users', function (Blueprint $table) {
             $table->integer('id')->autoIncrement()->comment('id');
             $table->string('over_name', 60)->index('over_name')->comment('姓');
             $table->string('under_name', 60)->index('under_name')->comment('名');
             $table->string('over_name_kana', 60)->index('over_name_kana')->comment('セイ');
             $table->string('under_name_kana', 60)->index('under_name_kana')->comment('メイ');
-            $table->string('mail_address', 60)->unique()->comment('メールアドレス');
+            $table->string('mail_address', 255)->unique()->comment('メールアドレス');
             $table->integer('sex')->index('sex')->comment('性別');
             $table->date('birth_day')->index('birth_day')->comment('生年月日');
             $table->integer('role')->index('role')->comment('権限');
             $table->string('password', 191)->comment('パスワード');
             $table->rememberToken();
-            $table->timestamp('created_at')->nullable()->comment('登録日時');
+            $table->timestamp('created_at')->default(DB::raw('current_timestamp on update current_timestamp'))->comment('登録日時');
             $table->timestamp('updated_at')->default(DB::raw('current_timestamp on update current_timestamp'))->comment('更新日時');
             $table->softDeletes();
         });

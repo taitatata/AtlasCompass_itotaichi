@@ -13,11 +13,12 @@ class CreatePostSubCategoriesTable extends Migration
      */
     public function up()
     {
+        //created_atのnullableを削除、DefaultとExtraを追加
         Schema::create('post_sub_categories', function (Blueprint $table) {
             $table->integer('id')->autoIncrement()->comment('id');
             $table->integer('post_id')->index()->comment('投稿のid');
             $table->integer('sub_category_id')->index()->comment('サブカテゴリーid');
-            $table->timestamp('created_at')->nullable()->comment('登録日時');
+            $table->timestamp('created_at')->default(DB::raw('current_timestamp on update current_timestamp'))->comment('登録日時');
         });
     }
 

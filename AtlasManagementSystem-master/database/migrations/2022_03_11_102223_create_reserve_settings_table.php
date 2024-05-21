@@ -13,12 +13,13 @@ class CreateReserveSettingsTable extends Migration
      */
     public function up()
     {
+        // updated_atを追加、created_atのnullableを削除、DefaultとExtraを追加
         Schema::create('reserve_settings', function (Blueprint $table) {
             $table->integer('id')->autoIncrement()->comment('id');
             $table->date('setting_reserve')->comment('開講日');
             $table->integer('setting_part')->comment('部');
             $table->integer('limit_users')->default(20)->comment('人数');
-            $table->timestamp('created_at')->nullable()->comment('登録日時');
+            $table->timestamp('updated_at')->default(DB::raw('current_timestamp on update current_timestamp'))->comment('更新日時');
         });
     }
 

@@ -99,3 +99,27 @@ $(function () {
   });
 
 })
+
+// 選択科目の表示（生徒を選択した場合）
+document.addEventListener('DOMContentLoaded', function () {
+  // ラジオボタンの要素を取得
+  const roleRadios = document.querySelectorAll('input[name="role"]');
+  const selectTeacherArea = document.querySelector('.select_teacher_area');
+
+  // ラジオボタンの変更を監視
+  roleRadios.forEach(radio => {
+    radio.addEventListener('change', function () {
+      if (this.value == '4') { // 生徒が選択された場合
+        selectTeacherArea.style.display = 'block';
+      } else { // その他が選択された場合
+        selectTeacherArea.style.display = 'none';
+      }
+    });
+  });
+
+  // ページ読み込み時にラジオボタンの選択状態を確認
+  const selectedRole = document.querySelector('input[name="role"]:checked');
+  if (selectedRole && selectedRole.value == '4') {
+    selectTeacherArea.style.display = 'block';
+  }
+});

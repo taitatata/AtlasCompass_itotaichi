@@ -5,13 +5,14 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\Models\Users\User;
+use App\Models\Users\Subjects;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use DB;
-
-use App\Models\Users\Subjects;
+// 追記（FormRequestを使用したバリデーションの設定）
+use App\Http\Requests\RegisterFormRequest;
 
 class RegisterController extends Controller
 {
@@ -57,7 +58,8 @@ class RegisterController extends Controller
         return view('auth.register.register', compact('subjects'));
     }
 
-    public function registerPost(Request $request)
+    public function registerPost(RegisterFormRequest $request)
+    // RequestからRegisterFormRequestに変更
     {
         DB::beginTransaction();
         try{
@@ -79,8 +81,14 @@ class RegisterController extends Controller
                 'role' => $request->role,
                 'password' => bcrypt($request->password)
             ]);
+
             $user = User::findOrFail($user_get->id);
-            $user->subjects()->attach($subjects);
+
+            // 生徒(role = 4) の場合、選択科目を subject_users テーブルに挿入
+            if ($request->role == 4 && $request->has('subject')) {
+            $user->subjects()->attach($request->subject);
+            }
+
             DB::commit();
             return view('auth.login.login');
         }catch(\Exception $e){

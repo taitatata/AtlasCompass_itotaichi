@@ -13,11 +13,12 @@ class CreateSubjectUsersTable extends Migration
      */
     public function up()
     {
+        // updated_atを追加、created_atのnullableを削除、DefaultとExtraを追加
         Schema::create('subject_users', function (Blueprint $table) {
             $table->integer('id')->autoIncrement()->comment('id');
             $table->integer('user_id')->comment('ユーザーid');
             $table->integer('subject_id')->comment('選択科目id');
-            $table->timestamp('created_at')->nullable()->comment('登録日時');
+            $table->timestamp('updated_at')->default(DB::raw('current_timestamp on update current_timestamp'))->comment('更新日時');
         });
     }
 
