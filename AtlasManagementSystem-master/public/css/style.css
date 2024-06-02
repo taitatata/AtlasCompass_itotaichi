@@ -687,7 +687,6 @@ li {
 .sub_categories li {
     border-bottom: 1.5px solid #aaaaaa;
     padding-bottom: 3px;
-    /* アンダーラインとテキストの間にスペースを作成 */
 }
 
 .sub_categories li {
@@ -817,6 +816,10 @@ li {
 }
 
 /* ユーザー検索 */
+.user_search_container {
+    width: 80%;
+}
+
 .reserve_users_area {
     display: flex;
     flex-wrap: wrap;
@@ -855,4 +858,22 @@ li {
 
 .subject_inner {
     display: none;
+}
+
+.search_conditions {
+    display: flex;
+    width: 100%;
+}
+
+.user_search_box {
+    display: flex;
+    width: 100%;
+    position: relative;
+    margin-bottom: 12px;
+}
+
+.title_name {
+    flex: 1;
+    border-bottom: 1.5px solid #aaaaaa;
+    padding-bottom: 3px;
 }

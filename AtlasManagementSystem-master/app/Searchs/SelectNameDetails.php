@@ -27,11 +27,24 @@ class SelectNameDetails implements DisplayUsers{
     ->where(function($q) use ($role, $gender){
       $q->whereIn('sex', $gender)
       ->whereIn('role', $role);
-    })
-    ->whereHas('subjects', function($q) use ($subjects){
-      $q->where('subjects.id', $subjects);
-    })
-    ->orderBy('over_name_kana', $updown)->get();
+    });
+
+    // ->whereHas('subjects', function($q) use ($subjects){
+    //   $q->where('subjects.id', $subjects);
+    // })
+    // ->orderBy('over_name_kana', $updown)->get();
+    // return $users;
+
+        if (!empty($subjects)) {
+        foreach ($subjects as $subject) {
+            $users->whereHas('subjects', function($q) use ($subject){
+                $q->where('subjects.id', $subject);
+            });
+        }
+    }
+
+    $users = $users->orderBy('over_name_kana', $updown)->get();
+
     return $users;
   }
 
