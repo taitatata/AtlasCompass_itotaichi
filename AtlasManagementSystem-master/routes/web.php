@@ -41,7 +41,8 @@ Route::group(['middleware' => 'auth'], function(){
         });
         Route::namespace('BulletinBoard')->group(function(){
             Route::get('/bulletin_board/posts/{keyword?}', 'PostsController@show')->name('post.show');
-            Route::get('/bulletin_board/input', 'PostsController@postInput')->name('post.input');
+            Route::get('/bulletin_board/input', 'PostsController@postInput')->name('post.input')->middleware('auth');
+            Route::get('/bulletin_board/posts', 'PostsController@postSubCategory')->name('post.sub.category')->middleware('auth');
             Route::get('/bulletin_board/like', 'PostsController@likeBulletinBoard')->name('like.bulletin.board');
             Route::get('/bulletin_board/my_post', 'PostsController@myBulletinBoard')->name('my.bulletin.board');
             Route::post('/bulletin_board/create', 'PostsController@postCreate')->name('post.create');
@@ -49,7 +50,7 @@ Route::group(['middleware' => 'auth'], function(){
             Route::post('/create/sub_category', 'PostsController@subCategoryCreate')->name('sub.category.create');
             Route::get('/bulletin_board/post/{id}', 'PostsController@postDetail')->name('post.detail');
             Route::post('/bulletin_board/edit', 'PostsController@postEdit')->name('post.edit');
-            Route::get('/bulletin_board/delete/{id}', 'PostsController@postDelete')->name('post.delete');
+            Route::delete('/bulletin_board/delete/{id}', 'PostsController@postDelete')->name('post.delete')->middleware('auth');
             Route::post('/comment/create', 'PostsController@commentCreate')->name('comment.create');
             Route::post('/like/post/{id}', 'PostsController@postLike')->name('post.like');
             Route::post('/unlike/post/{id}', 'PostsController@postUnLike')->name('post.unlike');

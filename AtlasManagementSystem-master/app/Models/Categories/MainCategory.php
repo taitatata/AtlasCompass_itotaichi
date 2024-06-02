@@ -12,8 +12,10 @@ class MainCategory extends Model
         'main_category'
     ];
 
-    public function subCategories(){
-        // リレーションの定義
+    //リレーションの修正：1対多のリレーション
+    public function subCategories()
+    {
+        return $this->hasMany(SubCategory::class, 'main_category_id');
+        //return $this->1対多のメソッド(リレーション先のモデル, 'ローカル(自分側)の外部キー');
     }
-
 }

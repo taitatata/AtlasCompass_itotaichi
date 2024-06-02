@@ -7,10 +7,13 @@
         <div class="detail_inner_head">
           <div>
           </div>
-          <div>
-            <span class="edit-modal-open" post_title="{{ $post->post_title }}" post_body="{{ $post->post }}" post_id="{{ $post->id }}">編集</span>
-            <a href="{{ route('post.delete', ['id' => $post->id]) }}">削除</a>
-          </div>
+          <!-- ログインユーザーと投稿者が一致する場合のみ編集・削除ボタンを表示 -->
+          @if(Auth::id() === $post->user_id)
+            <div>
+              <span class="edit-modal-open" post_title="{{ $post->post_title }}" post_body="{{ $post->post }}" post_id="{{ $post->id }}">編集</span>
+              <a href="#" class="delete_button" data-toggle="modal" data-target="#deleteModal" data-post-id="{{ $post->id }}">削除</a>
+            </div>
+          @endif
         </div>
 
         <div class="contributor d-flex">
@@ -44,6 +47,9 @@
     <div class="comment_container border m-5">
       <div class="comment_area p-3">
         <p class="m-0">コメントする</p>
+        @if ($errors->has("comment")) <!-- バリデーションエラーメッセージ  -->
+          <span class="error_message">{{ $errors->first('comment') }}</span>
+        @endif
         <textarea class="w-100" name="comment" form="commentRequest"></textarea>
         <input type="hidden" name="post_id" form="commentRequest" value="{{ $post->id }}">
         <input type="submit" class="btn btn-primary" form="commentRequest" value="投稿">
@@ -52,15 +58,29 @@
     </div>
   </div>
 </div>
+
+@if ($errors->any())
+    <input type="hidden" id="hasErrors" value="true">
+    <input type="hidden" id="old_post_title" value="{{ old('post_title') }}">
+    <input type="hidden" id="old_post_body" value="{{ old('post_body') }}">
+    <input type="hidden" id="old_post_id" value="{{ old('post_id') }}">
+@endif
+<!-- 編集用モーダル -->
 <div class="modal js-modal">
   <div class="modal__bg js-modal-close"></div>
   <div class="modal__content">
     <form action="{{ route('post.edit') }}" method="post">
       <div class="w-100">
         <div class="modal-inner-title w-50 m-auto">
+          @if ($errors->has("post_title")) <!-- バリデーションエラーメッセージ  -->
+            <span class="error_message">{{ $errors->first('post_title') }}</span>
+          @endif
           <input type="text" name="post_title" placeholder="タイトル" class="w-100">
         </div>
         <div class="modal-inner-body w-50 m-auto pt-3 pb-3">
+          @if ($errors->has("post_body")) <!-- バリデーションエラーメッセージ  -->
+            <span class="error_message">{{ $errors->first('post_body') }}</span>
+          @endif
           <textarea placeholder="投稿内容" name="post_body" class="w-100"></textarea>
         </div>
         <div class="w-50 m-auto edit-modal-btn d-flex">
@@ -73,4 +93,29 @@
     </form>
   </div>
 </div>
+<!-- 削除確認用モーダル -->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteModalLabel">削除確認</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        本当に削除してよろしいですか？
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">キャンセル</button>
+        <form id="deleteForm" method="POST" action="">
+          @csrf
+          @method('DELETE')
+          <button type="submit" class="btn btn-danger">削除</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
 @endsection

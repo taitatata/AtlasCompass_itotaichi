@@ -2,6 +2,10 @@ $(function () {
   $('.main_categories').click(function () {
     var category_id = $(this).attr('category_id');
     $('.category_num' + category_id).slideToggle();
+
+    // 矢印の向きを変える
+    var arrow = $(this).find('.toggle_arrow');
+    arrow.toggleClass('open');
   });
 
   $(document).on('click', '.like_btn', function (e) {
@@ -48,7 +52,17 @@ $(function () {
     });
   });
 
-  $('.edit-modal-open').on('click',function(){
+  if ($('#hasErrors').val() === 'true') {
+    $('.js-modal').fadeIn();
+    var post_title = $('#old_post_title').val();
+    var post_body = $('#old_post_body').val();
+    var post_id = $('#old_post_id').val();
+    $('.modal-inner-title input').val(post_title);
+    $('.modal-inner-body textarea').text(post_body);
+    $('.edit-modal-hidden').val(post_id);
+  }
+
+  $('.edit-modal-open').on('click', function () {
     $('.js-modal').fadeIn();
     var post_title = $(this).attr('post_title');
     var post_body = $(this).attr('post_body');
@@ -61,6 +75,17 @@ $(function () {
   $('.js-modal-close').on('click', function () {
     $('.js-modal').fadeOut();
     return false;
+  });
+
+  $(document).ready(function () {
+    $('#deleteModal').on('show.bs.modal', function (event) {
+      var button = $(event.relatedTarget); // モーダルを表示させたボタン
+      var postId = button.data('post-id'); // ボタンから投稿IDを取得
+      var action = '/bulletin_board/delete/' + postId; // フォームのアクションURLを生成
+
+      var modal = $(this);
+      modal.find('#deleteForm').attr('action', action); // フォームのアクションURLを設定
+    });
   });
 
 });

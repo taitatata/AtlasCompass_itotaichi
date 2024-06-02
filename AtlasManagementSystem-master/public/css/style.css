@@ -6,6 +6,11 @@
     padding: 0;
 }
 
+/* スタイル削除 */
+.no_margin {
+    margin: 0;
+}
+
 /* body */
 .all_content {
     height: 100%;
@@ -308,13 +313,29 @@ li {
     color: #0056b3;
 }
 
+/* マイページ */
+/* マイページタイトル */
+.profile_title {
+    margin-left: -150px;
+    margin-top: -2.5rem;
+}
 
 /* サイドバー */
 .sidebar {
-    width: 150px;
+    width: 180px;
     height: 100vh;
     background-color: #03AAD2;
     font-weight: bold;
+}
+
+.sidebar img {
+    width: 20px;
+    height: 20px;
+    margin: 0 3px;
+}
+
+.top_menu {
+    margin-top: 20px;
 }
 
 .main-container {
@@ -329,6 +350,7 @@ li {
 .user_status {
     border-radius: 10px;
     background: #FFF;
+    margin-top: 3rem;
 }
 
 /* スクール予約関連 */
@@ -404,6 +426,33 @@ li {
     display: none;
 }
 
+/* カテゴリー検索の矢印 */
+.toggle_arrow {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-top: 2px solid black;
+    border-right: 2px solid black;
+    transform: rotate(135deg);
+    /* 下向き矢印 */
+    cursor: pointer;
+    transition: transform 0.3s;
+    position: absolute;
+    right: 5%;
+    top: 20%;
+
+}
+
+.toggle_arrow.open {
+    border-top: none;
+    border-right: none;
+    /* 上向き矢印時に非表示 */
+    border-bottom: black 2px solid;
+    border-left: black 2px solid;
+    transform: rotate(135deg);
+    /* 上向き矢印 */
+}
+
 .post_create_area {
     background: #FFF;
     border-radius: 10px;
@@ -425,6 +474,7 @@ li {
 }
 
 .post_bottom_area {
+    display: flex;
     justify-content: space-between;
 }
 
@@ -433,15 +483,252 @@ li {
     cursor: pointer;
 }
 
+.like_btn {
+    color: gray;
+    border-radius: 50%;
+    background-color: white;
+    cursor: pointer;
+    display: inline-block;
+}
+
+.like-btn .fa-heart {
+    color: white;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+}
+
+
 .un_like,
 .un_like_btn {
     color: #E2254D;
 }
 
+.comment_icon {
+    color: gray;
+}
+
+.count {
+    margin-left: 5px;
+}
+
+/* バリデーションエラーメッセージ */
 .error_message {
     font-size: 12px;
     color: red;
 }
+
+/* 投稿者の名前のスタイル */
+.user_name {
+    color: grey;
+    font-weight: bold;
+}
+
+/* 投稿タイトル */
+.post_title_p {
+    margin-bottom: 7px;
+}
+
+.post_title {
+    text-decoration: none;
+    font-weight: bold;
+    color: black;
+}
+
+.post_title:hover {
+    color: #606060;
+    text-decoration: none;
+}
+
+/* アイコングループ */
+.post_status {
+    display: flex;
+    justify-content: space-between;
+    /* 左右の要素を離して配置 */
+    align-items: center;
+    /* 垂直方向の中央揃え */
+    width: 100%;
+}
+
+/* サブカテゴリー名 */
+.sub_category_name_button {
+    margin-right: auto;
+    background-color: #03AAD2;
+    border-radius: 5px;
+    color: white;
+    padding: 2px 5px;
+    font-size: 13px;
+}
+
+.icon {
+    display: flex;
+    margin-left: auto;
+}
+
+.like_count {
+    margin-right: 10px;
+}
+
+/* サイド：検索フォームエリア */
+.side_box1 {
+    display: flex;
+    flex-direction: column;
+}
+
+.side_box1 a {
+    font-size: 12px;
+}
+
+/* 投稿ボタン */
+.post_create {
+    width: 90%;
+    height: 30px;
+    background-color: #03AAD2;
+    color: white;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.post_create:hover {
+    background-color: #05a1c7;
+    color: white;
+    text-decoration: none;
+}
+
+/* 検索欄 */
+.post_show_box {
+    width: 90%;
+    display: flex;
+    margin-bottom: 15px;
+}
+
+.search_box {
+    display: flex;
+    width: 90%;
+    height: 30px;
+    margin-bottom: 15px;
+    font-size: 12px;
+}
+
+.search_area {
+    width: 70%;
+    background-color: #ECF1F6;
+    border: 1px solid #c8c8c8;
+    outline: none;
+    border-radius: 5px 0 0 5px;
+    /* 左側だけに角丸を適用 */
+}
+
+.search_button {
+    width: 30%;
+    background-color: #03AAD2;
+    color: white;
+    border-radius: 0 5px 5px 0;
+    border: none;
+    /* 左側だけに角丸を適用 */
+}
+
+.search_button:hover {
+    background-color: #05a1c7;
+}
+
+/* いいねした投稿と自分の投稿 */
+.main_box,
+.like_box {
+    width: 50%;
+    height: 30px;
+    color: white;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    margin: 0 1px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.main_box {
+    background-color: #f9c000;
+}
+
+.like_box {
+    background-color: #ed769d;
+}
+
+.main_box:hover {
+    background-color: #e7b304;
+}
+
+.like_box:hover {
+    background-color: #d86d90;
+}
+
+/* メインカテゴリーとサブカテゴリーのアンダーライン設定 */
+.category_search {}
+
+.category_header {
+    display: flex;
+    width: 90%;
+    position: relative;
+    margin-bottom: 12px;
+}
+
+.category_name {
+    flex: 1;
+}
+
+.category_name,
+.sub_categories li {
+    border-bottom: 1.5px solid #aaaaaa;
+    padding-bottom: 3px;
+    /* アンダーラインとテキストの間にスペースを作成 */
+}
+
+.sub_categories li {
+    margin-left: 10%;
+    margin-bottom: 12px;
+}
+
+.main_category_box {
+    display: flex;
+}
+
+.main_categories {
+    width: 100%;
+    position: relative;
+}
+
+.sub_categories {
+    width: 80%;
+}
+
+.sub_category_button {
+    font-size: 14px;
+    margin-left: 10%;
+    margin-bottom: 12px;
+    color: black;
+    text-decoration: none;
+    border: none;
+}
+
+.sub_category_button:hover {
+    color: #666666;
+}
+
+
+
+
+
+
+
+
+
 
 /* 掲示板 詳細画面 */
 .contributor {
@@ -520,7 +807,6 @@ li {
     border-radius: 5px;
     padding: 0 5px;
     border: none;
-    background: #999;
     color: #FFF;
 }
 
