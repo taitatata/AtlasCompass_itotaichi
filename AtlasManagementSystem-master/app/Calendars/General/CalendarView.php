@@ -1,4 +1,7 @@
 <?php
+
+// スクール予約ページ
+
 namespace App\Calendars\General;
 
 use Carbon\Carbon;
@@ -31,6 +34,7 @@ class CalendarView{
     $html[] = '</tr>';
     $html[] = '</thead>';
     $html[] = '<tbody>';
+
     $weeks = $this->getWeeks();
     foreach($weeks as $week){
       $html[] = '<tr class="'.$week->getClassName().'">';
@@ -47,27 +51,29 @@ class CalendarView{
         }
         $html[] = $day->render();
 
-        if(in_array($day->everyDay(), $day->authReserveDay())){
-          $reservePart = $day->authReserveDate($day->everyDay())->first()->setting_part;
-          if($reservePart == 1){
-            $reservePart = "リモ1部";
-          }else if($reservePart == 2){
-            $reservePart = "リモ2部";
-          }else if($reservePart == 3){
-            $reservePart = "リモ3部";
+          $reserveDate = $day->authReserveDate($day->everyDay())->first();
+          if ($reserveDate) {
+              $reservePart = $reserveDate->setting_part;
+              if ($reservePart == 1) {
+                  $reservePart = "リモ1部";
+              } else if ($reservePart == 2) {
+                  $reservePart = "リモ2部";
+              } else if ($reservePart == 3) {
+                  $reservePart = "リモ3部";
+              }
+              if ($startDay <= $day->everyDay() && $toDay >= $day->everyDay()) {
+                  $html[] = '<p class="m-auto p-0 w-75" style="font-size:12px"></p>';
+                  $html[] = '<input type="hidden" name="getPart[]" value="" form="reserveParts">';
+              } else {
+                  $html[] = '<button type="button" class="btn btn-danger p-0 w-75 cancel-reservation" data-toggle="modal" data-target="#cancelModal" data-date="'. $reserveDate->setting_reserve .'" data-part="'.$reservePart.'" style="font-size:12px">'. $reservePart .'</button>';
+                  $html[] = '<input type="hidden" name="getPart[]" value="" form="reserveParts">';
+              }
+          } else {
+              $html[] = $day->selectPart($day->everyDay());
           }
-          if($startDay <= $day->everyDay() && $toDay >= $day->everyDay()){
-            $html[] = '<p class="m-auto p-0 w-75" style="font-size:12px"></p>';
-            $html[] = '<input type="hidden" name="getPart[]" value="" form="reserveParts">';
-          }else{
-            $html[] = '<button type="submit" class="btn btn-danger p-0 w-75" name="delete_date" style="font-size:12px" value="'. $day->authReserveDate($day->everyDay())->first()->setting_reserve .'">'. $reservePart .'</button>';
-            $html[] = '<input type="hidden" name="getPart[]" value="" form="reserveParts">';
-          }
-        }else{
-          $html[] = $day->selectPart($day->everyDay());
-        }
         $html[] = $day->getDate();
-        $html[] = '</td>';
+            $html[] = '</div>';
+            $html[] = '</td>';
       }
       $html[] = '</tr>';
     }
@@ -94,4 +100,59 @@ class CalendarView{
     }
     return $weeks;
   }
+
+    protected function renderDayPartCounts($date){
+            $html = [];//結果として返すHTMLを格納する配列を初期化
+            $parts = ['1部' => 1, '2部' => 2, '3部' => 3];
+            foreach($parts as $partName => $partNum){ //各部についてループ処理を行う
+                $count = $this->getPartCount($date, $partNum);// 部ごとの予約数を取得
+                $reserveSetting = $this->getReserveId($date, $partNum); // 予約設定を取得
+
+                if($reserveSetting !== null) {
+                    $html[] = "<div><a href=\"#\" class=\"cancel-link\" data-toggle=\"modal\" data-target=\"#cancelModal\" data-id=\"{$reserveSetting->id}\" data-date=\"{$date}\" data-part=\"{$partName}\">{$partName}　　</a> {$count}人</div>";// 予約リンクを生成
+                }
+            }
+            return implode("", $html);// HTML文字列を結合して返す
+        }
+
+        protected function getReserveId($date, $part) {
+        $setting = ReserveSettings::where('setting_reserve', $date)->where('setting_part', $part)->first(); // 予約設定を取得
+
+        // デバッグ情報の追加
+        if ($setting) {
+            \Log::info("Found setting: " . json_encode($setting));
+            // ログインユーザーのIDを取得
+            $userId = Auth::id();
+            // reserve_setting_usersテーブルから該当レコードを取得
+            $reservation = DB::table('reserve_setting_users')
+                                ->where('reserve_setting_id', $setting->id)
+                                ->where('user_id', $userId)
+                                ->first();
+            // デバッグ情報の追加
+            if ($reservation) {
+                \Log::info("Found reservation: " . json_encode($reservation));
+                return $reservation->id;
+            } else {
+                \Log::warning("No reservation found for reserve_setting_id: " . $setting->id . " and user_id: " . $userId);
+            }
+        } else {
+            \Log::warning("No setting found for date: " . $date . " and part: " . $part);
+        }
+        return null; // 予約設定が存在しない場合、または予約が見つからない場合はnullを返す
+    }
+
+        protected function getReserveUserId($reserveSettingId, $userId){
+            $reserveSettingUser = DB::table('reserve_setting_users')
+                                    ->where('reserve_setting_id', $reserveSettingId)
+                                    ->where('user_id', $userId)
+                                    ->first(); // ユーザーの予約データを取得
+            return $reserveSettingUser ? $reserveSettingUser->id : null; // 予約データが存在すればそのIDを返す
+        }
+
+        public function getPartCount($date, $part)
+        {
+            return ReserveSettings::where('setting_reserve', $date)
+                                    ->where('setting_part', $part)
+                                    ->count();
+        }
 }

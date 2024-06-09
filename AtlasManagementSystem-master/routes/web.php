@@ -31,12 +31,15 @@ Route::group(['middleware' => 'auth'], function(){
                 Route::get('/calendar/{user_id}', 'CalendarsController@show')->name('calendar.general.show');
                 Route::post('/reserve/calendar', 'CalendarsController@reserve')->name('reserveParts');
                 Route::post('/delete/calendar', 'CalendarsController@delete')->name('deleteParts');
+                Route::delete('/cancel/reserve/{id}', 'CalendarsController@cancelReserve')->name('cancel.reserve');
+                Route::get('/test-debugbar', 'App\Http\Controllers\YourController@testDebugbar');
             });
             Route::namespace('Admin')->group(function(){
                 Route::get('/calendar/{user_id}/admin', 'CalendarsController@show')->name('calendar.admin.show');
                 Route::get('/calendar/{date}/{part}', 'CalendarsController@reserveDetail')->name('calendar.admin.detail');
                 Route::get('/setting/{user_id}/admin', 'CalendarsController@reserveSettings')->name('calendar.admin.setting');
                 Route::post('/setting/update/admin', 'CalendarsController@updateSettings')->name('calendar.admin.update');
+                // Route::get('/reserve/detail', 'CalendarsController@detail')->name('reserve.detail');
             });
         });
         Route::namespace('BulletinBoard')->group(function(){

@@ -440,17 +440,55 @@ li {
     position: absolute;
     right: 5%;
     top: 20%;
-
 }
 
 .toggle_arrow.open {
     border-top: none;
     border-right: none;
     /* 上向き矢印時に非表示 */
-    border-bottom: black 2px solid;
-    border-left: black 2px solid;
+    border-bottom: 2px solid black;
+    border-left: 2px solid black;
     transform: rotate(135deg);
     /* 上向き矢印 */
+}
+
+/* ユーザープロフィールのトグル */
+.toggle_arrow2 {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-top: 2px solid #03AAD2;
+    border-right: 2px solid #03AAD2;
+    transform: rotate(135deg);
+    /* 下向き矢印 */
+    cursor: pointer;
+    transition: transform 0.3s;
+    margin-left: 5px;
+}
+
+.toggle_arrow2.open {
+    border-top: none;
+    border-right: none;
+    /* 上向き矢印時に非表示 */
+    border-bottom: 2px solid #03AAD2;
+    border-left: 2px solid #03AAD2;
+    transform: rotate(135deg);
+    margin-top: 5px;
+    /* 上向き矢印 */
+}
+
+/* ユーザー検索ページのサイドバートグル */
+.toggle_arrow3 {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-top: 2px solid black;
+    border-right: 2px solid black;
+    transform: rotate(135deg);
+    /* 下向き矢印 */
+    cursor: pointer;
+    margin-left: -20px;
+    margin-top: 10px;
 }
 
 .post_create_area {
@@ -484,7 +522,9 @@ li {
 }
 
 .like_btn {
-    color: gray;
+    -webkit-text-stroke: 2px gray;
+    /* webkitで袋文字の設定 */
+    color: white;
     border-radius: 50%;
     background-color: white;
     cursor: pointer;
@@ -820,16 +860,17 @@ li {
     width: 80%;
 }
 
+.search_sidebar {
+    width: 80%;
+}
+
 .reserve_users_area {
     display: flex;
     flex-wrap: wrap;
-    width: 800px;
-    margin: 10px auto;
-    height: 80vh;
+    width: 880px;
+    margin: 10px auto 0 auto;
+    /* height: 80vh; */
     overflow: scroll;
-    padding: 10px;
-    background: #FFF;
-    border-radius: 5px;
 }
 
 .reserve_users_area span {
@@ -837,8 +878,18 @@ li {
 }
 
 .one_person {
-    width: 250px;
-    height: 250px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    width: 200px;
+    height: 200px;
+    background: #FFF;
+    border-radius: 7px;
+    margin: 0 10px 10px 10px;
+    padding: 10px;
+    font-weight: bold;
+    box-shadow: -5px 5px 10px #0000003b;
+    /* 左と下に影を追加 */
 }
 
 .search_conditions span {
@@ -847,18 +898,17 @@ li {
 
 .search_conditions_inner {
     display: none;
-    background: #FFF;
+    background: #ECF1F6;
 }
 
 .subject_edit_btn {
-    font-size: 12px;
-    color: #0000FF;
     cursor: pointer;
 }
 
 .subject_inner {
     display: none;
 }
+
 
 .search_conditions {
     display: flex;
@@ -876,4 +926,129 @@ li {
     flex: 1;
     border-bottom: 1.5px solid #aaaaaa;
     padding-bottom: 3px;
+}
+
+.name_title {
+    color: gray;
+}
+
+/* 検索用サイドバー */
+.search_title {
+    color: #67769d;
+    font-size: 20px;
+    margin: 50px 0 10px 0;
+}
+
+.search_box2 input {
+    background-color: #dfe0e2;
+    width: 80%;
+    height: 40px;
+    border-radius: 5px;
+    border: none;
+    outline: none;
+    margin-bottom: 10px;
+}
+
+/* 各項目を縦に配置 */
+.search_container {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+}
+
+.select_container {
+    display: flex;
+}
+
+.margin_more {
+    margin-bottom: 20px;
+}
+
+.search_sidebar label,
+.title_color {
+    color: #67769d;
+}
+
+.engineer {
+    background-color: #dfe0e2;
+    border-radius: 5px;
+    border: none;
+    outline: none;
+    padding-left: 10px;
+    padding-right: 40px;
+    max-width: 40%;
+    height: 30px;
+    appearance: none;
+    /* デフォルトのトグルを非表示 */
+}
+
+.search_items input {
+    margin: 0 10px 0 3px;
+}
+
+.search_button2 {
+    display: flex;
+    width: 80%;
+}
+
+.search_button2 input {
+    width: 100%;
+    height: 40px;
+    background-color: #03AAD2;
+    color: white;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+}
+
+.search_button2 input:hover {
+    background-color: #05a1c7;
+}
+
+.reset_button {
+    display: flex;
+    width: 80%;
+}
+
+.reset_button input {
+    width: 100%;
+    height: 40px;
+    color: #03AAD2;
+    border: none;
+    cursor: pointer;
+}
+
+.reset_button input:hover,
+.user_name_container a:hover {
+    color: #05a1c7;
+}
+
+.user_name_container a {
+    color: #03AAD2;
+}
+
+
+/* ユーザープロフィール */
+.subject_conditions {
+    display: flex;
+    width: 100%;
+    align-items: center;
+}
+
+.subject_conditions span {
+    color: #03AAD2;
+}
+
+.subject_group {
+    display: flex;
+    align-items: baseline
+}
+
+.subject_items {
+    display: flex;
+    align-items: baseline
+}
+
+.subject_items input {
+    margin: 0 5px 0 3px;
 }

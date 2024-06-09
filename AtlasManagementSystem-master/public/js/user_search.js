@@ -6,8 +6,15 @@ $(function () {
     arrow.toggleClass('open');
   });
 
-  $('.subject_edit_btn').click(function () {
+  // $('.subject_edit_btn').click(function () {
+  //   $('.subject_inner').slideToggle();
+  // });
+
+  $('.subject_conditions').click(function () {
     $('.subject_inner').slideToggle();
+    // 矢印の向きを変える
+    var arrow = $(this).find('.toggle_arrow2');
+    arrow.toggleClass('open');
   });
 
 });
