@@ -45,12 +45,17 @@ class CalendarsController extends Controller
             ->first();
 
         // 予約設定が見つからなかった場合の処理
-        if (!$reserveSetting) {
-            return redirect()->route('calendar.general.show', ['user_id' => auth()->id()])->with('error', '予約が見つかりませんでした。');
+        $users = collect(); // 空のコレクションを作成
+        if ($reserveSetting) {
+            // 関連するユーザー情報を取得
+            $users = $reserveSetting->users()->select('users.id', 'users.over_name', 'users.under_name')->get();
+        } else {
+            // 予約が見つからなかった場合の処理
+            $reserveSetting = new ReserveSettings([
+                'setting_reserve' => $date,
+                'setting_part' => $part,
+            ]);
         }
-
-        // 関連するユーザー情報を取得
-        $users = $reserveSetting->users()->select('users.id', 'users.over_name', 'users.under_name')->get();
 
         // ビューにデータを渡して表示
         return view('authenticated.calendar.admin.reserve_detail', compact('reserveSetting', 'users'));

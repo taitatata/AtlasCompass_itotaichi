@@ -11,22 +11,22 @@ class CalendarSettingView{
   }
 
   public function getTitle(){
-    return $this->carbon->format('Y年n月');
+    return '<span class="title_style">' . $this->carbon->format('Y年n月') . '</span>';
   }
 
   public function render(){
     $html = [];
-    $html[] = '<div class="calendar text-center">';
-    $html[] = '<table class="table m-auto border adjust-table">';
+    $html[] = '<div class="text-center">';
+    $html[] = '<table class=" border table_style">';
     $html[] = '<thead>';
     $html[] = '<tr>';
-    $html[] = '<th class="border">月</th>';
-    $html[] = '<th class="border">火</th>';
-    $html[] = '<th class="border">水</th>';
-    $html[] = '<th class="border">木</th>';
-    $html[] = '<th class="border">金</th>';
-    $html[] = '<th class="border">土</th>';
-    $html[] = '<th class="border">日</th>';
+    $html[] = '<th class="border margin_style">月</th>';
+    $html[] = '<th class="border margin_style">火</th>';
+    $html[] = '<th class="border margin_style">水</th>';
+    $html[] = '<th class="border margin_style">木</th>';
+    $html[] = '<th class="border margin_style">金</th>';
+    $html[] = '<th class="border margin_style day-sat">土</th>';
+    $html[] = '<th class="border margin_style day-sun">日</th>';
     $html[] = '</tr>';
     $html[] = '</thead>';
     $html[] = '<tbody>';
@@ -40,11 +40,15 @@ class CalendarSettingView{
         $toDay = $this->carbon->format("Y-m-d");
 
        if($startDay <= $day->everyDay() && $toDay >= $day->everyDay()){
-          $html[] = '<td class="past-day border">';
+          $html[] = '<td class="past-day border '.$day->getClassName().'">';
         }else{
-          $html[] = '<td class="border '.$day->getClassName().'">';
+          $html[] = '<td class="future_day border '.$day->getClassName().'">'; //クラス追加
         }
-        $html[] = $day->render();
+        // $html[] = $day->render();
+        $dayRendered = $day->render();
+        $dayRenderedWithClass = str_replace('<p', '<p class="date_style"', $dayRendered); // pタグにクラスを追加
+        $html[] = $dayRenderedWithClass;
+
         $html[] = '<div class="adjust-area">';
         if($day->everyDay()){
           if($startDay <= $day->everyDay() && $toDay >= $day->everyDay()){

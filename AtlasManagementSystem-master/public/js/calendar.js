@@ -13,23 +13,20 @@ $(function () {
 
             var modal = $(this);
             // モーダル内に予約情報を表示
-            modal.find('#reservationId').text('ID: ' + reserveId);//テスト用
+            modal.find('#reservationId').text('ID: ' + reserveId);
             modal.find('#reservationDate').text('予約日: ' + reserveDate);
             modal.find('#reservationPart').text('部: ' + reservePart);
-            modal.find('#confirmCancel').data('date', reserveDate); // キャンセルボタンに予約日を設定
-            modal.find('#confirmCancel').data('part', reservePart); // キャンセルボタンに予約部を設定
             modal.find('#confirmCancel').data('id', reserveId); // キャンセルボタンに予約IDを設定
         });
 
         // キャンセルボタンをクリックしたときの処理
         $('#confirmCancel').click(function () {
-            var reserveDate = $(this).data('date');
-            var reservePart = $(this).data('part');
             var reserveId = $(this).data('id');
             $.ajax({
-                url: '/cancel/reserve/' + reserveId,
-                type: 'DELETE',
+                url: '/delete/calendar',
+                type: 'POST',
                 data: {
+                    reserve_setting_id: reserveId,
                     _token: $('meta[name="csrf-token"]').attr('content')
                 },
                 success: function (response) {

@@ -354,8 +354,48 @@ li {
 }
 
 /* スクール予約関連 */
-.day-blank {
-    background: #D3D3D3;
+
+.calendar_style_a {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.calendar_style_b {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding: 2rem 2rem 1rem 2rem;
+    border-radius: 5px;
+    box-shadow: -5px 5px 10px #0000003b;
+    background: #fff;
+    width: 80%;
+}
+
+.calendar_style_c {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding: 2rem 2rem 2rem 2rem;
+    border-radius: 5px;
+    box-shadow: -5px 5px 10px #0000003b;
+    background: #fff;
+    width: 80%;
+}
+
+.title_style {
+    font-size: 1.3rem;
+    margin-bottom: 0.5rem;
+    color: gray;
+}
+
+.table_style {
+    width: 100%;
+    table-layout: fixed;
+}
+
+.date_blank {
+    background: #d3d3d3;
 }
 
 .day-sat {
@@ -366,8 +406,43 @@ li {
     color: #FF0000;
 }
 
+.count_style {
+    color: black;
+    display: flex;
+    flex-wrap: wrap;
+    /* 子要素を折り返す */
+    justify-content: space-between;
+    /* 子要素間のスペースを均等に */
+}
+
+.margin_style {
+    padding: 0.5rem 0;
+    background: #fff;
+}
+
 .past-day {
     background: #EEE;
+}
+
+.future_day {
+    background: #fff;
+}
+
+.past-day,
+.future_day {
+    padding: 0.5rem;
+}
+
+.future_day2 {
+    padding: 0.5rem 0.5rem 1rem 0.5rem;
+}
+
+.date_style {
+    margin: 0;
+}
+
+.day-blank {
+    background: #D3D3D3;
 }
 
 .calendar-td {
@@ -384,7 +459,7 @@ li {
 }
 
 .adjust-table td {
-    padding: 0 !important;
+    /* padding: 0 !important; */
 }
 
 .adjust-area p {
@@ -392,8 +467,99 @@ li {
 }
 
 .adjust-table-btn {
-    width: 70%;
+    width: 100%;
 }
+
+.setting_btn {
+    margin-top: 1rem;
+}
+
+.link_container {
+    display: flex;
+    justify-content: center;
+    width: 50%;
+}
+
+.link_style {
+    color: #03aad2;
+}
+
+.count_text_style {
+    text-align: left;
+    /* 数字を右揃え */
+}
+
+/* 予約詳細ページ */
+.margin_style2 {
+    margin-bottom: 0.5rem;
+}
+
+.reservation_container {
+    display: flex;
+    padding: 0.5rem;
+    border-radius: 10px;
+    background: #fff;
+}
+
+.table_header th {
+    background-color: #03aad2;
+    color: #fff;
+}
+
+.custom_box {
+    width: 80%;
+}
+
+.custom_table {
+    width: 100%;
+    height: 100%;
+}
+
+.custom_table tbody tr td {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+}
+
+.text_box {
+    padding: 0 3rem;
+}
+
+.text_area {
+    display: flex;
+    width: 100%;
+}
+
+.text_left {
+    width: 15%;
+    display: flex;
+    justify-content: center
+}
+
+.text_center {
+    width: 45%;
+    display: flex;
+    justify-content: center
+}
+
+.text_right {
+    width: 40%;
+    display: flex;
+    justify-content: center
+}
+
+.text_color {
+    color: black;
+}
+
+/* 行のスタイル 交互に配色*/
+.custom_table tbody tr.even-row {
+    background-color: #fff;
+}
+
+.custom_table tbody tr.odd-row {
+    background-color: #daf2ff;
+}
+
 
 /* モーダル */
 .modal {
@@ -759,15 +925,6 @@ li {
 .sub_category_button:hover {
     color: #666666;
 }
-
-
-
-
-
-
-
-
-
 
 /* 掲示板 詳細画面 */
 .contributor {
