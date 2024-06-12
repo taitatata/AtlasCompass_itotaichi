@@ -52,29 +52,44 @@ $(function () {
     });
   });
 
-  if ($('#hasErrors').val() === 'true') {
-    $('.js-modal').fadeIn();
-    var post_title = $('#old_post_title').val();
-    var post_body = $('#old_post_body').val();
-    var post_id = $('#old_post_id').val();
-    $('.modal-inner-title input').val(post_title);
-    $('.modal-inner-body textarea').text(post_body);
-    $('.edit-modal-hidden').val(post_id);
-  }
+  $(document).ready(function () {
+    if ($('#hasErrors').val() === 'true' && ($('#error_post_title').length > 0 || $('#error_post_body').length > 0)) {
+      $('.js-modal').fadeIn();
+      var post_title = $('#old_post_title').val();
+      var post_body = $('#old_post_body').val();
+      var post_id = $('#old_post_id').val();
+      $('.modal-inner-title input').val(post_title);
+      $('.modal-inner-body textarea').text(post_body);
+      $('.edit-modal-hidden').val(post_id);
+    }
 
-  $('.edit-modal-open').on('click', function () {
-    $('.js-modal').fadeIn();
-    var post_title = $(this).attr('post_title');
-    var post_body = $(this).attr('post_body');
-    var post_id = $(this).attr('post_id');
-    $('.modal-inner-title input').val(post_title);
-    $('.modal-inner-body textarea').text(post_body);
-    $('.edit-modal-hidden').val(post_id);
-    return false;
-  });
-  $('.js-modal-close').on('click', function () {
-    $('.js-modal').fadeOut();
-    return false;
+    $('.edit-modal-open').on('click', function () {
+      $('.js-modal').fadeIn();
+      var post_title = $(this).attr('post_title');
+      var post_body = $(this).attr('post_body');
+      var post_id = $(this).attr('post_id');
+      $('.modal-inner-title input').val(post_title);
+      $('.modal-inner-body textarea').text(post_body);
+      $('.edit-modal-hidden').val(post_id);
+      return false;
+    });
+
+    $('.js-modal-close').on('click', function () {
+      $('.js-modal').fadeOut();
+      return false;
+    });
+
+    // モーダルの外側をクリックしたときのみモーダルを閉じる
+    $(document).on('click', function (e) {
+      if ($(e.target).hasClass('modal__bg')) {
+        $('.js-modal').fadeOut();
+      }
+    });
+
+    // モーダルの内容部分をクリックしても閉じないようにする
+    $('.modal__content').on('click', function (e) {
+      e.stopPropagation();
+    });
   });
 
   $(document).ready(function () {

@@ -1,7 +1,7 @@
 @extends('layouts.sidebar')
 
 @section('content')
-<div class="board_area w-100 border m-auto d-flex">
+<div class="board_area w-100  m-auto d-flex">
   <div class="post_view w-75 mt-5">
     <p class="w-75 m-auto"></p>
     @foreach($posts as $post)
@@ -16,7 +16,7 @@
           <!-- サブカテゴリーを表示 -->
           <div class="sub_category_name">
             @foreach($post->subCategories as $subCategory)
-              <butto class="sub_category_name_button">{{ $subCategory->sub_category }}</butto>
+              <button class="sub_category_name_button">{{ $subCategory->sub_category }}</button>
             @endforeach
           </div>
           <div class="icon">
@@ -38,8 +38,8 @@
     </div>
     @endforeach
   </div>
-  <div class="other_area border w-25">
-    <div class="border m-4">
+  <div class="other_area w-25">
+    <div class="m-4">
       <div class="side_box1">
         <!-- 投稿 -->
         <a class="post_create" href="{{ route('post.input') }}">投稿</a>

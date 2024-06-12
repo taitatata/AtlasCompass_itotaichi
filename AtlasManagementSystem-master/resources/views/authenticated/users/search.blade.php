@@ -111,7 +111,7 @@
               <span class="toggle_arrow3"></span>
             </div>
           </div class="search_container">
-          <div class="selected_engineer">
+          <div class="selected_engineer margin_bottom">
             <label class="no_margin">選択科目</label>
             <div class="search_items">
               <span>国語</span><input type="checkbox" id="checkbox1" name="subject[]" value="1" form="userSearchRequest">
