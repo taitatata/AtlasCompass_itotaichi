@@ -57,10 +57,29 @@ class CalendarView{
 
                 $reserveDate = $day->authReserveDate($day->everyDay())->first();
                 if ($startDay <= $day->everyDay() && $toDay >= $day->everyDay()) {
-                        // 過去日の場合
+                    // 過去日の場合
+                    $userReservation = $day->authReserveDate($day->everyDay())->first();
+                    //ユーザーの予約情報の取得
+                    if ($userReservation) {
+                        $reservePart = $userReservation->setting_part;
+                        if ($reservePart == 1) {
+                            $reservePartText = "1部参加";
+                            //テキスト表示の設定
+                        } else if ($reservePart == 2) {
+                            $reservePartText = "2部参加";
+                            //テキスト表示の設定
+                        } else if ($reservePart == 3) {
+                            $reservePartText = "3部参加";
+                            //テキスト表示の設定
+                        }
+                        $html[] = '<p class="m-auto p-0 w-75 text_color" style="font-size:12px">' . $reservePartText . '</p>';
+                        //予約していた場合の表示
+                    } else {
                         $html[] = '<p class="m-auto p-0 w-75 text_color" style="font-size:12px">受付終了</p>';
-                        $html[] = '<input type="hidden" name="getPart[]" value="" form="reserveParts">';
-                        $html[] = '<input type="hidden" name="getDate[]" value="' . $day->everyDay() . '" form="reserveParts">';
+                        //予約していなかった場合の表示
+                    }
+                    $html[] = '<input type="hidden" name="getPart[]" value="" form="reserveParts">';
+                    $html[] = '<input type="hidden" name="getDate[]" value="' . $day->everyDay() . '" form="reserveParts">';
                 } else {
                     // 未来日または現在の日付の場合
                 if ($reserveDate) {
@@ -73,11 +92,12 @@ class CalendarView{
                         $reservePart = "リモ3部";
                     }
 
+                    $reserveSettingUserPivotId = $this->getUserReserveId($reserveDate->setting_reserve, $reserveDate->setting_part); // ログインユーザーの予約設定を取得
                     if ($startDay <= $day->everyDay() && $toDay >= $day->everyDay()) {
                         $html[] = '<p class="m-auto p-0 w-75" style="font-size:12px"></p>';
                         $html[] = '<input type="hidden" name="getPart[]" value="" form="reserveParts">';
                     } else {
-                        $html[] = '<button type="button" class="btn btn-danger p-0 w-75 cancel-reservation" data-toggle="modal" data-target="#cancelModal" data-date="'. $reserveDate->setting_reserve .'" data-part="'.$reservePart.'" style="font-size:12px">'. $reservePart .'</button>';
+                        $html[] = '<button type="button" class="btn btn-danger p-0 w-75 cancel-reservation" data-toggle="modal" data-target="#cancelModal" data-id="'. $reserveSettingUserPivotId .'" data-date="'. $reserveDate->setting_reserve .'" data-part="'.$reservePart.'" style="font-size:12px">'. $reservePart .'</button>';
                         $html[] = '<input type="hidden" name="getPart[]" value="" form="reserveParts">';
                     }
                 } else {

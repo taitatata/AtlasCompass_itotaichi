@@ -29,18 +29,14 @@ class SelectNameDetails implements DisplayUsers{
       ->whereIn('role', $role);
     });
 
-    // ->whereHas('subjects', function($q) use ($subjects){
-    //   $q->where('subjects.id', $subjects);
-    // })
-    // ->orderBy('over_name_kana', $updown)->get();
-    // return $users;
-
-        if (!empty($subjects)) {
-        foreach ($subjects as $subject) {
-            $users->whereHas('subjects', function($q) use ($subject){
-                $q->where('subjects.id', $subject);
+        if (!empty($subjects)) { // $subjectsが空でない場合にのみ以下の処理を実行
+          $users->where(function($q) use ($subjects) {
+            foreach ($subjects as $subject) {
+              $q->orWhereHas('subjects', function($query) use ($subject) { // subjectsリレーションで$subjectに一致するものがあるかを条件に追加
+                $query->where('subjects.id', $subject); // subjectsテーブルのidが$subjectと一致するかを条件に追加
             });
         }
+      });
     }
 
     $users = $users->orderBy('over_name_kana', $updown)->get();

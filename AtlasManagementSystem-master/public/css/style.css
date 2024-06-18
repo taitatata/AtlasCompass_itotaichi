@@ -786,6 +786,8 @@ li {
     font-size: 13px;
     border: none;
     outline: none;
+    white-space: nowrap;
+    /* テキストが長くても改行しないようにする */
 }
 
 .sub_category_name_button:focus {
