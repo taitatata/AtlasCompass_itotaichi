@@ -60,13 +60,30 @@ class CalendarsController extends Controller
             // フォームから送信された予約設定IDを取得
             $reserveSettingId = $request->input('reserve_setting_id');
 
+            // reserve_setting_users テーブルから指定された ID のレコードを取得
+            $reserveSettingUser = DB::table('reserve_setting_users')
+                                ->where('id', $reserveSettingId)
+                                ->first();
+
+            if ($reserveSettingUser) {
+            // 予約設定IDを取得
+            $settingId = $reserveSettingUser->reserve_setting_id;
+
             // reserve_setting_users テーブルから指定された ID のレコードを削除
             DB::table('reserve_setting_users')
                 ->where('id', $reserveSettingId)
                 ->delete();
 
+            // 予約設定の予約枠を1増やす
+            DB::table('reserve_settings')
+                ->where('id', $settingId)
+                ->increment('limit_users');
+
             DB::commit();// トランザクションをコミットする
             return response()->json(['success' => true]);// 成功メッセージをJSON形式で出す
+            } else {
+            throw new \Exception('予約設定が見つかりません。');
+            }
         } catch (\Exception $e) {
             DB::rollback();// トランザクションをロールバックする
             return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
